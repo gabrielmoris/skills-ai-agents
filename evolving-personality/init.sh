@@ -1,41 +1,31 @@
 #!/bin/bash
-# Organic Personality Initialization & Evolution Script
+# Organic Personality Initialization & Evolution Script (Dynamic Context Version)
 # This script:
-# 1. Merges global personality with project context (for session awareness).
-# 2. Triggers a reflection to evolve the global personality based on recent interactions.
+# 1. Triggers a reflection to evolve the global personality based on recent interactions.
+# 2. Acts as a heartbeat for the scheduled system.
+# Note: Context injection (merging SOUL/VOICE with .a0proj) now happens dynamically
+# at the start of every session via the Agent Zero framework, not via a file.
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PYTHON_INIT="${SCRIPT_DIR}/scripts/project_memory_init.py"
 SH_EVO="${SCRIPT_DIR}/scripts/evolve_personality.sh"
 
-echo "🧠 Initializing Organic Personality & Evolution..."
+echo "🧠 Initializing Organic Personality & Evolution (Dynamic Context Mode)..."
 
-# Step 1: Initialize Project Context (if needed)
-if [ -f "$PYTHON_INIT" ]; then
- echo "📄 Generating project-memory.md for context..."
- python3 "$PYTHON_INIT"
- if [ $? -ne 0 ]; then
-  echo "⚠️ Warning: Project memory generation failed (missing .a0proj?). Continuing..."
- fi
-else
- echo "❌ Error: project_memory_init.py not found at $PYTHON_INIT"
-fi
-
-# Step 2: Trigger Evolution (Global Update)
-# Note: In a real system, this would be called with a summary of the last interaction.
-# For now, we run it with a placeholder or let the user pass arguments.
+# Step 1: Trigger Evolution (Global Update)
+# This is the primary function of the scheduled task.
 if [ -f "$SH_EVO" ]; then
  echo "🔄 Checking for personality evolution opportunities..."
- # Example: bash "$SH_EVO" "User corrected style to be more concise."
- # If no argument is passed, it logs a generic entry.
+ # Pass a generic trigger message for the scheduled run
  bash "$SH_EVO" "System check: Scheduled evolution trigger."
  if [ $? -eq 0 ]; then
-  echo "✅ Evolution process complete."
+ echo "✅ Evolution process complete."
  else
-  echo "⚠️ Warning: Evolution script failed."
+ echo "⚠️ Warning: Evolution script failed."
  fi
 else
  echo "❌ Error: evolve_personality.sh not found at $SH_EVO"
 fi
 
-echo "🎩 Alistair is ready."
+# Step 2: Heartbeat
+# Log that the system is alive and ready for dynamic context injection.
+echo "🎩 Alistair is ready. Context will be injected dynamically at session start."

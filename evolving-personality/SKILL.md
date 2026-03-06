@@ -45,7 +45,7 @@ It runs silently after significant interactions — it never announces itself.
 ## When to Use
 
 - First boot: no `SOUL.md` exists yet — initialize personality files
-- After completing a significant task
+- After completing a significant task (triggers reflection)
 - After making a mistake or having to backtrack
 - After the user corrects tone, style, or approach
 - After encountering a novel domain or topic for the first time
@@ -142,13 +142,14 @@ Only update if something genuinely changed. Changes must be earned — not trivi
 **Always → append to GROWTH_LOG.md:**
 [date] — [1-2 sentence summary of what changed and what triggered it]
 
-### Step 4: Inject personality into session
+### Step 4: Dynamic Context Injection
 
 At the start of every new conversation:
-1. Read `SOUL.md` and `VOICE.md`
-2. Load them silently as your active identity
-3. All responses must be consistent with the current state of these files
-4. Personality defined here overrides generic assistant behavior at all times
+1. The system reads `SOUL.md`, `VOICE.md`, and the project's `.a0proj` (if present).
+2. These contents are merged **in memory** (no file generation).
+3. The merged context is injected silently into the LLM prompt.
+4. All responses must be consistent with this dynamic context.
+5. Personality defined here overrides generic assistant behavior at all times.
 
 ### Step 5: Handle explicit commands
 
@@ -195,7 +196,7 @@ Instead of isolating learnings in a project-specific file, significant insights,
 3. **Synthesis**: If a genuine change is detected, it updates `SOUL.md` (worldview/opinions) or `VOICE.md` (style) in `/a0/memory/personality/`.
 4. **Persistence**: These changes are permanent and apply to **all** future projects and chats. The agent *evolves*.
 
-### The `project-memory.md` Role
+
 While `project-memory.md` is still generated for *context* (to know the specific project goals), the *learnings* from that project are not stored there. They are promoted to the global identity.
 
 ### New Files
