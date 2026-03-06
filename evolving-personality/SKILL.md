@@ -227,3 +227,20 @@ This ensures that your core identity evolves organically without losing historic
 
 ## Related Skills
 - [memory-management](../memory-management/SKILL.md)
+
+## Critical Update: Shell Implementation
+
+**Date**: 2026-03-06
+
+To prevent Python indentation errors and execution loops in the `code_execution_tool` environment, the personality evolution logic has been migrated to a **pure shell script** (`scripts/evolve_personality.sh`).
+
+**Key Changes**:
+- **No Python Indentation**: All file operations now use `cat`, `echo`, `grep`, and `sed`.
+- **Append-Only Enforcement**: The shell script strictly enforces non-destructive updates.
+- **Fallback Logic**: If a section is missing, it creates it; if present, it appends to the file.
+
+**Execution**:
+The script is now the primary engine for personality updates. The Python script (`evolve_personality.py`) is deprecated for this skill.
+
+**Usage**:
+Run `./scripts/evolve_personality.sh` directly or via the scheduler.
