@@ -184,14 +184,20 @@ When updating `SOUL.md` or `VOICE.md`, the system **must** follow this strict wo
 ## Related Skills
 - [memory-management](../memory-management/SKILL.md)
 
-## Files (use skills_tool method=read_file to open)
+## Files
+
+The skill structure is as follows:
+
+```text
 /a0/skills/evolving-personality/
 ├── scripts/
-│ └── evolve_personality.sh
+│   └── evolve_personality.sh
 ├── SKILL.md
 └── init.sh
+```
 
-
+*Note: `TASK_PROMPT.md` is also present but not listed in the main tree as it is a separate prompt file for the scheduled task.*
+## Automated Maintenance: The Organic Personality Refresh
 ## Automated Maintenance: The Organic Personality Refresh
 
 To ensure continuous, low-level evolution without explicit user triggers, a scheduled task runs every 2 hours.
