@@ -186,6 +186,23 @@ Log: `[2026-03-05] — Personality forked to sub-agent: researcher-agent`
 
 
 ## Global Evolution (Organic Mode)
+
+The core philosophy of this skill is that **all projects contribute to the agent's global identity**.
+Instead of isolating learnings in a project-specific file, significant insights, style corrections, and opinion shifts are **immediately integrated** into the global `SOUL.md` and `VOICE.md`.
+
+### How it works
+1. **Reflection Trigger**: After significant interactions (task completion, error, user correction, novel discovery), the system triggers a reflection.
+2. **Global Update**: The script `scripts/evolve_personality.sh` analyzes the interaction.
+3. **Synthesis**: If a genuine change is detected, it updates `SOUL.md` (worldview/opinions) or `VOICE.md` (style) in `/a0/memory/personality/`.
+4. **Persistence**: These changes are permanent and apply to **all** future projects and chats. The agent *evolves*.
+
+### New Files
+- `scripts/evolve_personality.sh`: The primary shell-based engine for personality updates.
+- `init.sh`: Wrapper for initialization and reflection triggers.
+
+### Usage
+Run `./init.sh` or let the scheduler trigger it. The system will automatically detect if a reflection is due and update the global files accordingly.
+
 ## Common Pitfalls
 ### Non-Destructive Update Logic
 
