@@ -197,7 +197,7 @@ When updating `SOUL.md` or `VOICE.md`, the system **must** follow this strict wo
 To ensure continuous, low-level evolution without explicit user triggers, a scheduled task runs every 2 hours.
 
 ### Task Definition
-The task uses the prompt defined in . It is memory-aware, retrieving the last reflection timestamp to avoid redundant checks.
+The task uses the prompt defined in `TASK_PROMPT.md`. It is memory-aware, retrieving the last reflection timestamp to avoid redundant checks.
 
 ### How to Create/Update the Task
 Run the following command in your Agent Zero chat to create or update the scheduled task:
