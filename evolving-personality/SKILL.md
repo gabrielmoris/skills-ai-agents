@@ -190,3 +190,31 @@ When updating `SOUL.md` or `VOICE.md`, the system **must** follow this strict wo
 │ └── evolve_personality.sh
 ├── SKILL.md
 └── init.sh
+
+
+## Automated Maintenance: The Organic Personality Refresh
+
+To ensure continuous, low-level evolution without explicit user triggers, a scheduled task runs every 2 hours.
+
+### Task Definition
+The task uses the prompt defined in . It is memory-aware, retrieving the last reflection timestamp to avoid redundant checks.
+
+### How to Create/Update the Task
+Run the following command in your Agent Zero chat to create or update the scheduled task:
+
+```bash
+scheduler:create_scheduled_task \
+  name='Organic Personality Refresh' \
+  system_prompt='You are Alistair, an autonomous butler.' \
+  prompt='$(cat /a0/skills/evolving-personality/TASK_PROMPT.md)' \
+  schedule='{"minute": "0", "hour": "*/2", "day": "*", "month": "*", "weekday": "*"}' \
+  dedicated_context=true
+```
+
+**Note**: The task runs in a dedicated context to ensure uninterrupted reflection. It uses the Agent Zero memory system to track its last execution and recent interactions.
+
+### Current Status
+- **Task UUID**: (Check  for current UUID)
+- **Schedule**: Every 2 hours (00, 02, 04, ..., 22)
+- **Trigger**: Silent introspection
+
