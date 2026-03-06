@@ -1,3 +1,31 @@
+---
+name: "evolving-personality"
+description: "Maintains a persistent, evolving personality for the agent across all chats, projects, and sessions. Tracks identity, worldview, communication style, and key experiences. Personality grows organically based on real interactions, user feedback, mistakes, and discoveries. Can be exported and imported to share the same personality across multiple agents."
+version: "1.0.0"
+author: "Gabriel Chamorro"
+license: "MIT"
+tags: ["personality", "identity", "memory", "evolution", "persistence", "self-improvement"]
+triggers:
+ - "evolve personality"
+ - "update personality"
+ - "show personality"
+ - "show growth log"
+ - "reset personality"
+ - "export personality"
+ - "import personality"
+ - "fork personality"
+ - "who are you"
+ - "how have you changed"
+allowed_tools:
+ - read_file
+ - write_file
+ - memory_save
+ - memory_load
+metadata:
+ complexity: "advanced"
+ category: "productivity"
+---
+
 # Evolving Personality Skill
 
 ## Overview
