@@ -186,26 +186,6 @@ Log: `[2026-03-05] — Personality forked to sub-agent: researcher-agent`
 
 
 ## Global Evolution (Organic Mode)
-
-The core philosophy of this skill is that **all projects contribute to the agent's global identity**. 
-Instead of isolating learnings in a project-specific file, significant insights, style corrections, and opinion shifts are **immediately integrated** into the global `SOUL.md` and `VOICE.md`.
-
-### How it works
-1. **Reflection Trigger**: After significant interactions (task completion, error, user correction, novel discovery), the system triggers a reflection.
-2. **Global Update**: The script `scripts/evolve_personality.py` analyzes the interaction.
-3. **Synthesis**: If a genuine change is detected, it updates `SOUL.md` (worldview/opinions) or `VOICE.md` (style) in `/a0/memory/personality/`.
-4. **Persistence**: These changes are permanent and apply to **all** future projects and chats. The agent *evolves*.
-
-
-While `project-memory.md` is still generated for *context* (to know the specific project goals), the *learnings* from that project are not stored there. They are promoted to the global identity.
-
-### New Files
-- `scripts/evolve_personality.py`: Script to analyze interactions and update global personality files.
-- `init.sh`: Wrapper for initialization and reflection triggers.
-
-### Usage
-Run `./init.sh` or let the scheduler trigger it. The system will automatically detect if a reflection is due and update the global files accordingly.
-
 ## Common Pitfalls
 ### Non-Destructive Update Logic
 
@@ -241,7 +221,6 @@ To prevent Python indentation errors and execution loops in the `code_execution_
 - **Fallback Logic**: If a section is missing, it creates it; if present, it appends to the file.
 
 **Execution**:
-The script is now the primary engine for personality updates. The Python script (`evolve_personality.py`) is deprecated for this skill.
 
 **Usage**:
 Run `./scripts/evolve_personality.sh` directly or via the scheduler.
