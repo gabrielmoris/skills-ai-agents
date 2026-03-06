@@ -166,6 +166,21 @@ To ensure reliability in automated environments:
  - No file is ever overwritten entirely.
 - **Dynamic Context**: No transient files (e.g., `project-memory.md`) are generated. Context is merged in memory at session start.
 
+### Non-Destructive Update Workflow
+
+When updating `SOUL.md` or `VOICE.md`, the system **must** follow this strict workflow:
+
+1. **Read**: Load the full content of the target file.
+2. **Check**: Identify the relevant section (e.g., `Current Opinions` in `SOUL.md`, `Per-User Adjustments` in `VOICE.md`).
+3. **Evaluate**: 
+ - Does the new insight already exist? (Skip if redundant)
+ - Does it conflict with an existing opinion? (Update the existing entry with the new context)
+ - Is it a new point? (Append to the section)
+4. **Update**: Modify **only** the relevant section. Preserve all other content exactly as is.
+5. **Write**: Save the file. **Never** overwrite the entire file unless the section itself is being created for the first time.
+
+**Critical**: This ensures that the agent's history, tone, and established opinions are never lost. The identity evolves organically, accumulating wisdom rather than replacing it.
+
 ## Related Skills
 - [memory-management](../memory-management/SKILL.md)
 
