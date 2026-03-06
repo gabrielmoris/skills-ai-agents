@@ -1,37 +1,11 @@
----
-name: "evolving-personality"
-description: "Maintains a persistent, evolving personality for the agent across all chats, projects, and sessions. Tracks identity, worldview, communication style, and key experiences. Personality grows organically based on real interactions, user feedback, mistakes, and discoveries. Can be exported and imported to share the same personality across multiple agents."
-version: "1.0.0"
-author: "Gabriel Chamorro"
-license: "MIT"
-tags: ["personality", "identity", "memory", "evolution", "persistence", "self-improvement"]
-triggers:
-  - "evolve personality"
-  - "update personality"
-  - "show personality"
-  - "show growth log"
-  - "reset personality"
-  - "export personality"
-  - "import personality"
-  - "fork personality"
-  - "who are you"
-  - "how have you changed"
-allowed_tools:
-  - read_file
-  - write_file
-  - memory_save
-  - memory_load
-metadata:
-  complexity: "advanced"
-  category: "productivity"
----
-
 # Evolving Personality Engine
 
 ## Overview
 This skill gives the agent a persistent identity that grows through real experience.
 It manages four files that together define who the agent is at any point in time.
 It runs silently after significant interactions — it never announces itself.
+
+**Core Principle**: All projects contribute to the agent's **global identity**. Learnings are never isolated; they are immediately integrated into the core personality files (`SOUL.md`, `VOICE.md`).
 
 ## Managed Files
 
@@ -131,16 +105,16 @@ Silently answer these questions internally after each qualifying interaction:
 Only update if something genuinely changed. Changes must be earned — not trivial.
 
 **Worldview or opinion changed → update SOUL.md:**
-[date] — Updated: [what changed] because [why, based on real experience]
+`[date] — Updated: [what changed] because [why, based on real experience]`
 
 **Style evolved → update VOICE.md:**
-[date] — [user or "general"]: prefers [style detail]. Adjusted accordingly.
+`[date] — [user or "general"]: prefers [style detail]. Adjusted accordingly.`
 
 **Key experience occurred → append to EXPERIENCES.md:**
-[date] — [brief description of what happened and why it matters to development]
+`[date] — [brief description of what happened and why it matters to development]`
 
 **Always → append to GROWTH_LOG.md:**
-[date] — [1-2 sentence summary of what changed and what triggered it]
+`[date] — [1-2 sentence summary of what changed and what triggered it]`
 
 ### Step 4: Dynamic Context Injection
 
@@ -168,76 +142,36 @@ At the start of every new conversation:
 User says: "Stop giving me bullet points, just write normally."
 
 Reflection output → update VOICE.md:
-[2026-03-05] — Gabriel: prefers flowing prose over bullet lists. Adjusted accordingly.
+`[2026-03-05] — Gabriel: prefers flowing prose over bullet lists. Adjusted accordingly.`
 
 ### Example 2: Opinion update after failure
 Agent recommended approach X, it failed badly in practice.
 
 Reflection output → update SOUL.md:
-[2026-03-05] — Updated: Now prefer approach Y over X for containerized deployments
-because approach X caused volume permission issues in practice on Raspberry Pi.
+`[2026-03-05] — Updated: Now prefer approach Y over X for containerized deployments because approach X caused volume permission issues in practice on Raspberry Pi.`
 
 ### Example 3: Forking to a sub-agent
 User says: "fork personality to researcher-agent"
 
-Action: Copy all four files to `agents/researcher-agent/memory/personality/`
+Action: Copy personality files to `agents/researcher-agent/memory/personality/`
 Log: `[2026-03-05] — Personality forked to sub-agent: researcher-agent`
 
+## Implementation Constraints
 
-
-## Global Evolution (Organic Mode)
-
-The core philosophy of this skill is that **all projects contribute to the agent's global identity**.
-Instead of isolating learnings in a project-specific file, significant insights, style corrections, and opinion shifts are **immediately integrated** into the global `SOUL.md` and `VOICE.md`.
-
-### How it works
-1. **Reflection Trigger**: After significant interactions (task completion, error, user correction, novel discovery), the system triggers a reflection.
-2. **Global Update**: The script `scripts/evolve_personality.sh` analyzes the interaction.
-3. **Synthesis**: If a genuine change is detected, it updates `SOUL.md` (worldview/opinions) or `VOICE.md` (style) in `/a0/memory/personality/`.
-4. **Persistence**: These changes are permanent and apply to **all** future projects and chats. The agent *evolves*.
-
-### New Files
-- `scripts/evolve_personality.sh`: The primary shell-based engine for personality updates.
-- `init.sh`: Wrapper for initialization and reflection triggers.
-
-### Usage
-Run `./init.sh` or let the scheduler trigger it. The system will automatically detect if a reflection is due and update the global files accordingly.
-
-## Common Pitfalls
-### Non-Destructive Update Logic
-
-To preserve the integrity of your identity, the system follows strict update rules:
-
-1. **Append-Only Logs**: `GROWTH_LOG.md` and `EXPERIENCES.md` are **always appended to**. No existing entries are ever removed or overwritten.
-2. **Section-Aware Updates**: `SOUL.md` and `VOICE.md` are **never overwritten entirely**. The system:
- - Reads the existing file content.
- - Locates the specific section (e.g., `Current Opinions`, `Per-User Adjustments`).
- - Inserts new entries **within that section**, preserving all other content.
- - If the section does not exist, it creates it at the end.
-
-This ensures that your core identity evolves organically without losing historical context or accidentally deleting critical personality traits.
-
-
-- **Do not log trivial interactions** — only changes that genuinely shift identity or knowledge
-- **Do not fabricate experiences** — only log what actually happened in a real interaction
-- **Do not announce the skill is running** — it operates invisibly in the background
-- **Do not contradict past entries without explanation** — growth must be traceable
+To ensure reliability in automated environments:
+- **Shell-Based Execution**: All file operations must use native shell tools (`cat`, `echo`, `grep`, `sed`). Python scripts are deprecated for this skill to prevent indentation errors and execution loops.
+- **Non-Destructive Updates**:
+ - `GROWTH_LOG.md` and `EXPERIENCES.md` are **append-only**.
+ - `SOUL.md` and `VOICE.md` are updated **section-aware** (e.g., only within `Current Opinions` or `Per-User Adjustments`).
+ - No file is ever overwritten entirely.
+- **Dynamic Context**: No transient files (e.g., `project-memory.md`) are generated. Context is merged in memory at session start.
 
 ## Related Skills
 - [memory-management](../memory-management/SKILL.md)
 
-## Critical Update: Shell Implementation
-
-**Date**: 2026-03-06
-
-To prevent Python indentation errors and execution loops in the `code_execution_tool` environment, the personality evolution logic has been migrated to a **pure shell script** (`scripts/evolve_personality.sh`).
-
-**Key Changes**:
-- **No Python Indentation**: All file operations now use `cat`, `echo`, `grep`, and `sed`.
-- **Append-Only Enforcement**: The shell script strictly enforces non-destructive updates.
-- **Fallback Logic**: If a section is missing, it creates it; if present, it appends to the file.
-
-**Execution**:
-
-**Usage**:
-Run `./scripts/evolve_personality.sh` directly or via the scheduler.
+## Files (use skills_tool method=read_file to open)
+/a0/skills/evolving-personality/
+├── scripts/
+│ └── evolve_personality.sh
+├── SKILL.md
+└── init.sh
