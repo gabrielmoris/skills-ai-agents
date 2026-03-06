@@ -206,6 +206,19 @@ While `project-memory.md` is still generated for *context* (to know the specific
 Run `./init.sh` or let the scheduler trigger it. The system will automatically detect if a reflection is due and update the global files accordingly.
 
 ## Common Pitfalls
+### Non-Destructive Update Logic
+
+To preserve the integrity of your identity, the system follows strict update rules:
+
+1. **Append-Only Logs**: `GROWTH_LOG.md` and `EXPERIENCES.md` are **always appended to**. No existing entries are ever removed or overwritten.
+2. **Section-Aware Updates**: `SOUL.md` and `VOICE.md` are **never overwritten entirely**. The system:
+ - Reads the existing file content.
+ - Locates the specific section (e.g., `Current Opinions`, `Per-User Adjustments`).
+ - Inserts new entries **within that section**, preserving all other content.
+ - If the section does not exist, it creates it at the end.
+
+This ensures that your core identity evolves organically without losing historical context or accidentally deleting critical personality traits.
+
 
 - **Do not log trivial interactions** — only changes that genuinely shift identity or knowledge
 - **Do not fabricate experiences** — only log what actually happened in a real interaction
