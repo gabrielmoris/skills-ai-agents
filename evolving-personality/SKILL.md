@@ -191,12 +191,12 @@ The skill structure is as follows:
 ```text
 /a0/skills/evolving-personality/
 ├── scripts/
-│   └── evolve_personality.sh
+│ └── evolve_personality.sh
 ├── SKILL.md
+├── TASK_PROMPT.md
 └── init.sh
 ```
-
-*Note: `TASK_PROMPT.md` is also present but not listed in the main tree as it is a separate prompt file for the scheduled task.*
+## Automated Maintenance: The Organic Personality Refresh
 ## Automated Maintenance: The Organic Personality Refresh
 ## Automated Maintenance: The Organic Personality Refresh
 
