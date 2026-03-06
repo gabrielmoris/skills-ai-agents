@@ -183,41 +183,27 @@ Action: Copy all four files to `agents/researcher-agent/memory/personality/`
 Log: `[2026-03-05] — Personality forked to sub-agent: researcher-agent`
 
 
-## Project Integration (Organic Mode)
 
-To make this personality **organic** and project-aware, the skill now includes an initialization step that merges global identity with project context.
+## Global Evolution (Organic Mode)
+
+The core philosophy of this skill is that **all projects contribute to the agent's global identity**. 
+Instead of isolating learnings in a project-specific file, significant insights, style corrections, and opinion shifts are **immediately integrated** into the global `SOUL.md` and `VOICE.md`.
 
 ### How it works
-1. **Detection**: On project load, the system checks for `.a0proj` in the working directory.
-2. **Synthesis**: A script (`scripts/project_memory_init.py`) reads `SOUL.md`, `VOICE.md`, and `.a0proj`.
-3. **Generation**: It creates a dynamic `project-memory.md` in the working directory.
-4. **Context Injection**: This file is automatically included in the agent's context for the session, ensuring Alistair knows *who* he is and *what* project he is working on.
+1. **Reflection Trigger**: After significant interactions (task completion, error, user correction, novel discovery), the system triggers a reflection.
+2. **Global Update**: The script `scripts/evolve_personality.py` analyzes the interaction.
+3. **Synthesis**: If a genuine change is detected, it updates `SOUL.md` (worldview/opinions) or `VOICE.md` (style) in `/a0/memory/personality/`.
+4. **Persistence**: These changes are permanent and apply to **all** future projects and chats. The agent *evolves*.
+
+### The `project-memory.md` Role
+While `project-memory.md` is still generated for *context* (to know the specific project goals), the *learnings* from that project are not stored there. They are promoted to the global identity.
 
 ### New Files
-- `scripts/project_memory_init.py`: Python script to merge personality and project context.
-- `init.sh`: Shell wrapper to trigger initialization.
+- `scripts/evolve_personality.py`: Script to analyze interactions and update global personality files.
+- `init.sh`: Wrapper for initialization and reflection triggers.
 
 ### Usage
-Run `./init.sh` when activating a new project, or configure the Agent Zero framework to call it automatically on project switch.
-
-
-## Automated Initialization (Scheduled)
-
-To ensure the agent's personality is always fresh and aligned with the current project context without manual intervention, a scheduled task runs the initialization script every 2 hours.
-
-### Configuration
-- **Task Name**: Organic Personality Refresh
-- **Schedule**: Every 2 hours (`0 */2 * * *`)
-- **Action**: Executes `/a0/skills/evolving-personality/init.sh`
-- **Result**: Regenerates `project-memory.md` in the active working directory, merging global identity with project-specific context.
-
-### How it works
-1. The scheduler triggers the task automatically.
-2. `init.sh` calls `scripts/project_memory_init.py`.
-3. The script reads `SOUL.md`, `VOICE.md`, and `.a0proj` (if present).
-4. A new `project-memory.md` is generated, ensuring the agent's context is up-to-date for any new chat session starting within the next 2-hour window.
-
-This automation ensures that Alistair is always ready, knowing exactly who he is and what project he is working on, even if you start a new chat at an unexpected time.
+Run `./init.sh` or let the scheduler trigger it. The system will automatically detect if a reflection is due and update the global files accordingly.
 
 ## Common Pitfalls
 
