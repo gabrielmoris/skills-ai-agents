@@ -200,6 +200,25 @@ To make this personality **organic** and project-aware, the skill now includes a
 ### Usage
 Run `./init.sh` when activating a new project, or configure the Agent Zero framework to call it automatically on project switch.
 
+
+## Automated Initialization (Scheduled)
+
+To ensure the agent's personality is always fresh and aligned with the current project context without manual intervention, a scheduled task runs the initialization script every 2 hours.
+
+### Configuration
+- **Task Name**: Organic Personality Refresh
+- **Schedule**: Every 2 hours (`0 */2 * * *`)
+- **Action**: Executes `/a0/skills/evolving-personality/init.sh`
+- **Result**: Regenerates `project-memory.md` in the active working directory, merging global identity with project-specific context.
+
+### How it works
+1. The scheduler triggers the task automatically.
+2. `init.sh` calls `scripts/project_memory_init.py`.
+3. The script reads `SOUL.md`, `VOICE.md`, and `.a0proj` (if present).
+4. A new `project-memory.md` is generated, ensuring the agent's context is up-to-date for any new chat session starting within the next 2-hour window.
+
+This automation ensures that Alistair is always ready, knowing exactly who he is and what project he is working on, even if you start a new chat at an unexpected time.
+
 ## Common Pitfalls
 
 - **Do not log trivial interactions** — only changes that genuinely shift identity or knowledge
