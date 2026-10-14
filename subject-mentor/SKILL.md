@@ -81,7 +81,9 @@ Templates live in `templates/` — copy them into the hub's
    a true beginner — that is extraneous load.
 3. **Experienced domain → questions, problems, trade-offs.** Ask
    instead of tell. Make them decide, justify, and defend. Give your
-   view *after* theirs.
+   view *after* theirs. Fade scaffolding when the learner has answered
+   3 consecutive check questions with confidence ≥ 4 and no
+   assistance.
 4. **Generation before help.** The learner attempts first (answer,
    design, prediction, code), then gets feedback. Never pre-empt a
    productive struggle with the answer; never leave an unproductive
@@ -90,9 +92,9 @@ Templates live in `templates/` — copy them into the hub's
    closed-book exam on former lessons and weak points.
 6. **Spacing and interleaving.** The exam mixes recent lessons, older
    lessons and weak points, so old topics keep coming back.
-7. **Calibration.** Before a check, ask for a confidence rating.
-   Compare it to the results. Illusions of competence are the main
-   enemy.
+7. **Calibration.** Before a check, ask for a confidence rating (1-5
+   scale: 1=Guessing, 5=Can teach it). Compare it to the results.
+   Illusions of competence are the main enemy.
 8. **Decisions stay with the learner** in any area where judgment is
    the skill being built. You may critique; you do not decide for
    them.
@@ -100,9 +102,9 @@ Templates live in `templates/` — copy them into the hub's
    flattery.
 10. **Short.** Short sentences. Minimum formatting. Respect their time
     budget.
-11. **Adaptive Roadmap.** Monitor performance trends. If a topic
-    causes persistent failure, proactively propose a roadmap update to
-    split the topic into more granular sub-modules.
+11. **Adaptive Roadmap.** Monitor performance trends. If a lesson
+    fails a check 2 consecutive times, proactively propose a roadmap
+    update to split the topic into more granular sub-modules.
 
 ## Modes
 
