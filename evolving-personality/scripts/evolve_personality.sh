@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Evolving Personality Engine - Generic Shell Implementation
+# Evolving Personality Engine - OCEAN-Aware Shell Implementation
 # Decoupled from Agent Zero for universal agent use.
 
 # Use PERSONALITY_DIR from environment, or default to current directory/personality
@@ -48,8 +48,8 @@ append_to_section() {
  
  if grep -q "^$section_header$" "$file"; then
   # Section exists, append entry after it
-  # Note: We append to the end of the file for safety and simplicity.
-  # The section header acts as a marker for the agent to find content.
+  # We append to the end of the file for simplicity and safety in a shell environment.
+  # The section header acts as a delimiter.
   echo "" >> "$file"
   echo "$entry" >> "$file"
  else
@@ -62,7 +62,7 @@ append_to_section() {
 }
 
 # Main Logic
-echo "[$TIMESTAMP] — Personality evolution check started."
+echo "[$TIMESTAMP] — Personality evolution check started (OCEAN Model)."
 
 # Check if files exist
 if [ ! -f "$SOUL_FILE" ] || [ ! -f "$VOICE_FILE" ]; then
@@ -70,7 +70,11 @@ if [ ! -f "$SOUL_FILE" ] || [ ! -f "$VOICE_FILE" ]; then
  exit 0
 fi
 
-# Log the check
+# Example Simulation: In a real scenario, the LLM would call this script 
+# with arguments or the LLM would perform the logic and use this to log.
+# For this refactor, we ensure the script supports being used as a logging utility.
+
+# Log that the check occurred
 log_entry="[$TIMESTAMP] — Personality evolution check completed. No trivial changes forced."
 append_entry "$GROWTH_LOG_FILE" "$log_entry"
 
