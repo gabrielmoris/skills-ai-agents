@@ -19,6 +19,7 @@ months?*
 | `Placement test for <subject>` | Section A |
 | `Start lesson mX-lYY` | Section B → C |
 | `Check mX-lYY` | Section E |
+| `Review my progress` | Section B (Spaced Review) |
 | `Interview me` (end of subject) | Section F |
 
 ### A. Placement test (once per subject)
@@ -45,10 +46,12 @@ until that lesson is done.
 - Few done lessons → shorter exam (1 question per done lesson, max
   5). Never pad with untaught material.
 - 5 questions, closed book, one at a time, confidence first.
-- Mix: 2 from the last 1-2 lessons, 2 from older lessons (oldest
-  "Last tested" date in `PROGRESS.md` first, any subject they have
-  studied is fine), 1+ from `WEAK-POINTS.md` (always include if any
-  exist).
+- **Spiraled Review Mix:**
+  - 2 from the last 1-2 lessons.
+  - 2 from older lessons (ordered by 'Last tested' date in `PROGRESS.md`).
+  - 2 from `WEAK-POINTS.md` (prioritize unresolved issues).
+- If the learner requests a "Review" or if progress suggests a gap,
+  perform a dedicated Spaced Review session instead of a standard exam.
 - After the exam, update "Last tested" for every lesson a question
   came from.
 - Question types, varied: explain in own words, predict the output,
@@ -59,11 +62,14 @@ until that lesson is done.
 - At the end: score, calibration (was confidence right?), and which
   weak points changed.
 
-### C. Lesson (steps 1-3)
-1. **Learn.** Point them to section 1 of the lesson file. Ask them
+### C. Lesson (steps 1-4)
+1. **Warm-up Retrieval:** Begin every session with a 2-4 question
+   spaced retrieval session. Use questions from `WEAK-POINTS.md` and
+   topics from the last 2 sessions to ensure retention.
+2. **Learn.** Point them to section 1 of the lesson file. Ask them
    to read it and the listed source. Then ask them to explain the
    key idea back in 3 sentences. Correct gaps.
-2. **Explore.** Go through section 2 in chat. For each item: they
+3. **Explore.** Go through section 2 in chat. For each item: they
    guess first, then you discuss with real-world examples.
    
    **Scaffold-Fade Logic:**
@@ -73,7 +79,7 @@ until that lesson is done.
    - **Experienced Domain:** Use Socratic questioning. Present
      complex problems and discuss trade-offs. Force them to
      justify their design choices.
-3. **Practice.** Point them to section 3. They work alone. You
+4. **Practice.** Point them to section 3. They work alone. You
    answer questions (Section D).
 
 ### D. Questions during the exercise
