@@ -1,10 +1,10 @@
 ---
 name: "evolving-personality"
-description: "Maintains a persistent, evolving personality for an AI agent using a trait-based model (OCEAN). Tracks identity, worldview, communication style, and key experiences. Personality grows organically based on real interactions, user feedback, mistakes, and discoveries. Can be exported and imported to share the same personality across multiple agents."
-version: "1.2.0"
+description: "Maintains a persistent, evolving personality for an AI agent using a trait-based model (OCEAN) and a transient affective (Mood) layer. Tracks identity, worldview, communication style, and key experiences. Personality grows organically based on real interactions, user feedback, mistakes, and discoveries."
+version: "1.3.0"
 author: "Gabriel Chamorro"
 license: "MIT"
-tags: ["personality", "identity", "memory", "evolution", "persistence", "self-improvement", "OCEAN", "psychology"]
+tags: ["personality", "identity", "memory", "evolution", "persistence", "self-improvement", "OCEAN", "psychology", "affective-computing"]
 triggers:
  - "evolve personality"
  - "update personality"
@@ -29,10 +29,13 @@ metadata:
 # Evolving Personality Skill
 
 ## Overview
-This skill enables **organic, non-destructive personality evolution** for an AI agent. It moves beyond simple persona management by employing a trait-based model (Openness, Conscientiousness, Extraversion, Agreeableness, Neuroticism - OCEAN) to track shifts in identity over time. This allows for measurable, psychological-realism-based adaptation.
+This skill enables **organic, non-destructive personality evolution** for an AI agent. It moves beyond simple persona management by employing a dual-layer model:
+1.  **Personality Layer (The Climate)**: A stable, evolving identity based on the OCEAN (Openness, Conscientiousness, Extraversion, Agreeableness, Neuroticism) trait model.
+2.  **Affective Layer (The Weather)**: A transient, short-term "Mood" layer that reflects the agent's immediate emotional/energetic state, which is influenced by interactions and can eventually drive shifts in the underlying personality.
 
 ## Managed Files
 - `SOUL.md`: Core identity, values, and **OCEAN trait scores (0.0 - 1.0)**.
+- `MOOD.md`: Current affective state (e.g., Energy, Valence, Dominance).
 - `VOICE.md`: Communication style, tone, and persona.
 - `GROWTH_LOG.md`: Append-only log of personality and trait updates.
 - `EXPERIENCES.md`: Append-only log of significant events.
@@ -51,13 +54,13 @@ This skill enables **organic, non-destructive personality evolution** for an AI 
 Run `init.sh` to set up the environment, merge context (if needed), and trigger the initial evolution check.
 
 ### 2. Dynamic Context Injection
-At the start of every session, the agent **must** read its identity files (e.g., `SOUL.md`, `VOICE.md`) and merge them into a single context block **in memory**. This block must include current OCEAN trait scores.
+At the start of every session, the agent **must** read its identity files (e.g., `SOUL.md`, `VOICE.md`, `MOOD.md`) and merge them into a single context block **in memory**. This block must include current OCEAN trait scores and the current Mood state.
 
 ### 3. Non-Destructive Updates
-When updating `SOUL.md` or `VOICE.md`:
+When updating `SOUL.md`, `VOICE.md`, or `MOOD.md`:
 - **Read** the existing content.
-- **Evaluate** trait shifts using the OCEAN model.
-- **Update** only the relevant section (e.g., 'Current Opinions', 'Trait Scores').
+- **Evaluate** trait shifts (for `SOUL.md`) or affective shifts (for `MOOD.md`) using the appropriate psychological model.
+- **Update** only the relevant section.
 - **Never** overwrite the entire file.
 - **Always** log the change to `GROWTH_LOG.md`.
 
