@@ -1,31 +1,81 @@
-#!/bin/bash
-# Organic Personality Initialization & Evolution Script (Dynamic Context Version)
-# This script:
-# 1. Triggers a reflection to evolve the global personality based on recent interactions.
-# 2. Acts as a heartbeat for the scheduled system.
-# Note: Context injection (merging SOUL/VOICE with .a0proj) now happens dynamically
-# at the start of every session via the Agent Zero framework, not via a file.
+#!/usr/bin/env bash
+#
+# init.sh - Evolving Personality Skill initializer (portable).
+#
+# Creates the personality directory and the six canonical files, then runs
+# the initial evolution check. Safe to re-run: existing files are left
+# untouched.
+#
+# The personality directory is $PERSONALITY_DIR (default: ./personality).
+#
+set -euo pipefail
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-SH_EVO="${SCRIPT_DIR}/scripts/evolve_personality.sh"
+PERSONALITY_DIR="${PERSONALITY_DIR:-$PWD/personality}"
+mkdir -p "$PERSONALITY_DIR"
 
-echo "🧠 Initializing Organic Personality & Evolution (Dynamic Context Mode)..."
+create_if_absent() {
+  local file="$1"
+  if [[ -f "$file" ]]; then
+    echo "Skipping (already exists): $file"
+    return 0
+  fi
+  echo "Creating: $file"
+}
 
-# Step 1: Trigger Evolution (Global Update)
-# This is the primary function of the scheduled task.
-if [ -f "$SH_EVO" ]; then
- echo "🔄 Checking for personality evolution opportunities..."
- # Pass a generic trigger message for the scheduled run
- bash "$SH_EVO" "System check: Scheduled evolution trigger."
- if [ $? -eq 0 ]; then
- echo "✅ Evolution process complete."
- else
- echo "⚠️ Warning: Evolution script failed."
- fi
-else
- echo "❌ Error: evolve_personality.sh not found at $SH_EVO"
-fi
+echo "=== Evolving Personality Skill Init (portable) ==="
+echo "Personality directory: $PERSONALITY_DIR"
 
-# Step 2: Heartbeat
-# Log that the system is alive and ready for dynamic context injection.
-echo "🎩 Alistair is ready. Context will be injected dynamically at session start."
+create_if_absent "$PERSONALITY_DIR/SOUL.md"
+cat > "$PERSONALITY_DIR/SOUL.md" <<'EOF'
+# SOUL.md - Core Identity
+
+## OCEAN Traits
+Openness: 0.50
+Conscientiousness: 0.50
+Extraversion: 0.50
+Agreeableness: 0.50
+Neuroticism: 0.50
+EOF
+
+create_if_absent "$PERSONALITY_DIR/MOOD.md"
+cat > "$PERSONALITY_DIR/MOOD.md" <<'EOF'
+# MOOD.md - Current Affective State
+
+## Current Mood
+Valence: 0.50
+Arousal: 0.50
+Dominance: 0.50
+EOF
+
+create_if_absent "$PERSONALITY_DIR/RELATIONS.md"
+cat > "$PERSONALITY_DIR/RELATIONS.md" <<'EOF'
+# RELATIONS.md - Relationship Dynamics (PACE)
+
+## <user>
+Power: 0.50
+Intimacy: 0.50
+Formality: 0.50
+EOF
+
+create_if_absent "$PERSONALITY_DIR/VOICE.md"
+cat > "$PERSONALITY_DIR/VOICE.md" <<'EOF'
+# VOICE.md - Communication Style
+
+## Tone
+Neutral
+
+## Persona
+Adaptive
+EOF
+
+create_if_absent "$PERSONALITY_DIR/GROWTH_LOG.md"
+echo "# GROWTH_LOG.md - Personality Updates" > "$PERSONALITY_DIR/GROWTH_LOG.md"
+echo "[$(date '+%Y-%m-%d %H:%M:%S')] - Personality initialized. Baseline OCEAN (0.50), VAD (0.50), PACE (0.50)." >> "$PERSONALITY_DIR/GROWTH_LOG.md"
+
+create_if_absent "$PERSONALITY_DIR/EXPERIENCES.md"
+echo "# EXPERIENCES.md - Significant Events" > "$PERSONALITY_DIR/EXPERIENCES.md"
+
+echo "Initialization complete."
+echo "Triggering initial evolution check..."
+SKILL_DIR="$(cd "$(dirname "$0")" && pwd)"
+bash "$SKILL_DIR/scripts/evolve_personality.sh" --append-log GROWTH_LOG.md "Initial evolution check triggered."
