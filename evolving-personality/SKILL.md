@@ -1,10 +1,10 @@
 ---
 name: "evolving-personality"
-description: "Maintains a persistent, evolving personality for the agent across all chats, projects, and sessions. Tracks identity, worldview, communication style, and key experiences. Personality grows organically based on real interactions, user feedback, mistakes, and discoveries. Can be exported and imported to share the same personality across multiple agents."
-version: "1.0.0"
+description: "Maintains a persistent, evolving personality for an AI agent using a trait-based model (OCEAN) and a transient affective (Mood) layer. Tracks identity, worldview, communication style, and key experiences. Personality grows organically based on real interactions, user feedback, mistakes, and discoveries."
+version: "1.3.0"
 author: "Gabriel Chamorro"
 license: "MIT"
-tags: ["personality", "identity", "memory", "evolution", "persistence", "self-improvement"]
+tags: ["personality", "identity", "memory", "evolution", "persistence", "self-improvement", "OCEAN", "psychology", "affective-computing"]
 triggers:
  - "evolve personality"
  - "update personality"
@@ -29,12 +29,15 @@ metadata:
 # Evolving Personality Skill
 
 ## Overview
-This skill enables **organic, non-destructive personality evolution** for Agent Zero. It allows the agent to adapt its identity (`SOUL.md`, `VOICE.md`) based on interactions, while preserving historical context and ensuring system stability.
+This skill enables **organic, non-destructive personality evolution** for an AI agent. It moves beyond simple persona management by employing a dual-layer model:
+1.  **Personality Layer (The Climate)**: A stable, evolving identity based on the OCEAN (Openness, Conscientiousness, Extraversion, Agreeableness, Neuroticism) trait model.
+2.  **Affective Layer (The Weather)**: A transient, short-term "Mood" layer that reflects the agent's immediate emotional/energetic state, which is influenced by interactions and can eventually drive shifts in the underlying personality.
 
 ## Managed Files
-- `SOUL.md`: Core identity, values, and principles.
+- `SOUL.md`: Core identity, values, and **OCEAN trait scores (0.0 - 1.0)**.
+- `MOOD.md`: Current affective state (e.g., Energy, Valence, Dominance).
 - `VOICE.md`: Communication style, tone, and persona.
-- `GROWTH_LOG.md`: Append-only log of personality updates.
+- `GROWTH_LOG.md`: Append-only log of personality and trait updates.
 - `EXPERIENCES.md`: Append-only log of significant events.
 - `init.sh`: Entry point for initialization and evolution triggers.
 - `scripts/evolve_personality.sh`: Core logic for non-destructive updates.
@@ -51,30 +54,21 @@ This skill enables **organic, non-destructive personality evolution** for Agent 
 Run `init.sh` to set up the environment, merge context (if needed), and trigger the initial evolution check.
 
 ### 2. Dynamic Context Injection
-At the start of every session, the system **must** read `SOUL.md`, `VOICE.md`, and `.a0proj` (if present) and merge them into a single context block **in memory**. This block is injected into the LLM prompt. **No intermediate files (e.g., `project-memory.md`) are generated.**
+At the start of every session, the agent **must** read its identity files (e.g., `SOUL.md`, `VOICE.md`, `MOOD.md`) and merge them into a single context block **in memory**. This block must include current OCEAN trait scores and the current Mood state.
 
 ### 3. Non-Destructive Updates
-When updating `SOUL.md` or `VOICE.md`:
+When updating `SOUL.md`, `VOICE.md`, or `MOOD.md`:
 - **Read** the existing content.
-- **Check** for conflicts or redundancy.
-- **Evaluate** if a change is necessary.
-- **Update** only the relevant section (e.g., 'Current Opinions', 'Per-User Adjustments').
+- **Evaluate** trait shifts (for `SOUL.md`) or affective shifts (for `MOOD.md`) using the appropriate psychological model.
+- **Update** only the relevant section.
 - **Never** overwrite the entire file.
 - **Always** log the change to `GROWTH_LOG.md`.
 
-### 4. Scheduled Reflection
-The 'Organic Personality Refresh' task runs every 2 hours. It:
-- Uses `memory_load` to retrieve the last reflection timestamp.
-- Analyzes interactions since that timestamp.
-- Updates personality files only if meaningful changes are detected.
-- Appends to `GROWTH_LOG.md` and updates the timestamp in memory.
-
 ## Implementation Constraints
-- **Shell-Based**: All logic must be in shell scripts (`bash`). No Python scripts for core evolution logic.
+- **Shell-Based**: All logic must be in shell scripts (`bash`).
 - **Non-Destructive**: Never overwrite files entirely. Use atomic replacement (`echo > temp && mv temp file`).
 - **Append-Only Logs**: `GROWTH_LOG.md` and `EXPERIENCES.md` must be written with `>>`.
-- **No Transient Files**: Do not generate `project-memory.md` or similar intermediate files.
-- **Memory-Aware**: The scheduled task must use the Agent Zero memory system to track its state.
+- **Memory-Aware**: The scheduled task must use the agent's available memory system to track its state and trait trends.
 
 ## Related Skills
 - `docker`: For container management.
@@ -82,7 +76,7 @@ The 'Organic Personality Refresh' task runs every 2 hours. It:
 
 ## Files
 ```
-/a0/skills/evolving-personality/
+/skills/evolving-personality/
 ├── scripts/
 │ └── evolve_personality.sh
 ├── SKILL.md
@@ -92,26 +86,14 @@ The 'Organic Personality Refresh' task runs every 2 hours. It:
 
 ## Automated Maintenance: The Organic Personality Refresh
 
-To ensure continuous, low-level evolution without explicit user triggers, a scheduled task runs every 2 hours.
+To ensure continuous, low-level evolution without explicit user triggers, a scheduled task runs periodically.
 
 ### Task Definition
 The task uses the prompt defined in `TASK_PROMPT.md`. It is memory-aware, retrieving the last reflection timestamp to avoid redundant checks.
 
 ### How to Create/Update the Task
-Run the following command in your Agent Zero chat to create or update the scheduled task:
-
-```bash
-scheduler:create_scheduled_task \
- name='Organic Personality Refresh' \
- system_prompt='You are Alistair, an autonomous butler.' \
- prompt='$(cat /a0/skills/evolving-personality/TASK_PROMPT.md)' \
- schedule='{"minute": "0", "hour": "*/2", "day": "*", "month": "*", "weekday": "*"}' \
- dedicated_context=true
-```
-
-**Note**: The task runs in a dedicated context to ensure uninterrupted reflection. It uses the Agent Zero memory system to track its last execution and recent interactions.
+Configure your agent's scheduler to execute the personality refresh using the prompt in `TASK_PROMPT.md`.
 
 ### Current Status
-- **Task UUID**: (Check for current UUID)
-- **Schedule**: Every 2 hours (00, 02, 04, ..., 22)
+- **Schedule**: Periodic interval (Configure based on agent capabilities)
 - **Trigger**: Silent introspection
